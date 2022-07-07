@@ -1,30 +1,36 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div>
+    <div class="app_top">
+      <p>{{ time }}</p>
+      <img src="@/assets/phone_base.svg" alt="" class="top_icon">
+    </div>
+    <router-view></router-view>
+    <div class="home_menu">
+      <router-link to="/">Home</router-link>
+      <router-link to="/">Home</router-link>
+    </div>
+  </div>
 </template>
-
+<script>
+export default {
+  data() {
+    return {
+      time: ''
+    }
+  },
+  methods: {
+    setTime() {
+      const day = new Date()
+      const hour = day.getHours()
+      const minutes = day.getMinutes()
+      this.time = `${hour}:${minutes}`
+    }
+  },
+  created() {
+    this.setTime()
+  }
+}
+</script>
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
+@import '@/css/main.css'
 </style>
