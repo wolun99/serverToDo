@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import store from '@/store/index.js'
 
 const routes = [
   {
@@ -9,21 +10,34 @@ const routes = [
   {
     path: '/sign',
     name: 'Signup',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import('@/views/SignUpForm.vue')
   },
   {
     path: '/post',
     name: 'Post',
-    component: () => import('@/views/PostForm.vue')
+    component: () => import('@/views/PostForm.vue'),
+    meta: { login: true }
   }
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+history.pushState(null, document.title, '#back')
+
+window.onpopstate = function () {
+  history.go(1)
+}
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.login && !store.getters.isLogin) {
+    console.log('인증이필요합니다')
+    next('/')
+    return
+  }
+  next()
 })
 
 export default router

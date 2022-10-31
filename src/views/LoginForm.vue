@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h4>로그인 페이지입니다</h4>
     <Login></Login>
   </div>
 </template>

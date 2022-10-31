@@ -3,7 +3,7 @@
     <h2 class="title">회원가입</h2>
     <form @submit.prevent="submitForm">
       <input type="text" class="id" name="user_id" v-model="user_id" placeholder="id를 입력해주세요">
-      <input type="password" class="pw" name="user_pw" v-model="user_pw" placeholder="비밀번호를 입력해주세요">
+      <input type="password" class="pw" name="user_pw" v-model="user_pw" placeholder="비밀번호를 입력해주세요" autocomplete = "off">
       <input type="text" class="nickname" name="nickname" v-model="user_name" placeholder="닉네임을 입력해주세요">
       <button type="submit" class="btn">가입하기</button>
     </form>
@@ -17,7 +17,8 @@ export default {
     return {
       user_id: '',
       user_pw: '',
-      user_name: ''
+      user_name: '',
+      user_same: {}
     }
   },
   methods: {
@@ -30,9 +31,14 @@ export default {
           user_pw: this.user_pw,
           user_name: this.user_name
         }
-        console.log(userData)
         const request = await registerUser(userData)
-        console.log(request)
+        this.user_same = request.data.message
+        if (this.user_same === '이미 있는 ID입니다') {
+          alert('있는ID입니다. 다른ID로 등록해주세요')
+          this.$router.push('/sign')
+        } else {
+          this.$router.push('/')
+        }
       }
     }
   }
